@@ -38,20 +38,20 @@ namespace KPZ_Lab2
             var listB = Alphabet.GetBrackets();
             var listO = Alphabet.GetOperations();
 
-            var t01 = new Transition(s0, s1, 'f');
-            var t04 = new Transition(s0, s4, listN);
-            var t05 = new Transition(s0, s5, list05);
-            var t06 = new Transition(s0, s6, listS);
-            var t07 = new Transition(s0, s7, listB);
-            var t08 = new Transition(s0, s8, listO);
-            var t11 = new Transition(s1, s1, list11);
-            var t12 = new Transition(s1, s2, 'o');
-            var t22 = new Transition(s2, s2, list22);
-            var t23 = new Transition(s2, s3, 'r');
-            var t33 = new Transition(s3, s3, listW);
-            var t44 = new Transition(s4, s4, listN);
-            var t55 = new Transition(s5, s5, listW);
-            var t66 = new Transition(s6, s6, listS);
+            var t01 = new Transition(s0, s1, 'f', LexicalUnit.LexType.None);
+            var t04 = new Transition(s0, s4, listN, LexicalUnit.LexType.Const);
+            var t05 = new Transition(s0, s5, list05, LexicalUnit.LexType.Identifier);
+            var t06 = new Transition(s0, s6, listS, LexicalUnit.LexType.Separator);
+            var t07 = new Transition(s0, s7, listB, LexicalUnit.LexType.Bracket);
+            var t08 = new Transition(s0, s8, listO, LexicalUnit.LexType.Operation);
+            var t11 = new Transition(s1, s1, list11, LexicalUnit.LexType.Identifier);
+            var t12 = new Transition(s1, s2, 'o', LexicalUnit.LexType.Identifier);
+            var t22 = new Transition(s2, s2, list22, LexicalUnit.LexType.Identifier);
+            var t23 = new Transition(s2, s3, 'r', LexicalUnit.LexType.Identifier);
+            var t33 = new Transition(s3, s3, listW, LexicalUnit.LexType.Identifier);
+            var t44 = new Transition(s4, s4, listN, LexicalUnit.LexType.Const);
+            var t55 = new Transition(s5, s5, listW, LexicalUnit.LexType.Identifier);
+            var t66 = new Transition(s6, s6, listS, LexicalUnit.LexType.Separator);
 
             var transitions = new List<Transition>()
             {
@@ -71,9 +71,49 @@ namespace KPZ_Lab2
                 t66
             };
 
+            string expression = "for(i=0;i<10;i=i+1){a[i]=i;}";
+            Console.WriteLine("Unparsed expression: \n" + expression);
             var m = new FSM(states, Alphabet.GetFullAlphabet(), transitions, s0, finalStates);
-            bool b = m.Check("A0009");
-            Console.WriteLine(b);
+            Console.WriteLine("\nLexical units: ");
+            Console.WriteLine(m.GetLexUnits("for(i=0;i<10;i=i+1){a[i]=i;}"));
+
+            Console.WriteLine("\nIdentifiers (1):");
+            foreach (var item in LexicalUnit.IdList)
+            {
+                Console.WriteLine(LexicalUnit.IdList.IndexOf(item) + " " + item);
+            }
+            
+            Console.WriteLine("\nConst (2):");
+            foreach (var item in LexicalUnit.CList)
+            {
+                Console.WriteLine(LexicalUnit.CList.IndexOf(item) + " " + item);
+            }
+
+            Console.WriteLine("\nOperations (3):");
+            foreach (var item in LexicalUnit.OList)
+            {
+                Console.WriteLine(LexicalUnit.OList.IndexOf(item) + " " + item);
+            }
+
+            Console.WriteLine("\nBrackets (4):");
+            foreach (var item in LexicalUnit.BList)
+            {
+                Console.WriteLine(LexicalUnit.BList.IndexOf(item) + " " + item);
+            }
+
+            Console.WriteLine("\nKey words (5):");
+            foreach (var item in LexicalUnit.KeyList)
+            {
+                Console.WriteLine(LexicalUnit.KeyList.IndexOf(item) + " " + item);
+            }
+
+            Console.WriteLine("\nSeparators (6):");
+            foreach (var item in LexicalUnit.SList)
+            {
+                Console.WriteLine(LexicalUnit.SList.IndexOf(item) + " " + item);
+            }
+
+            Console.WriteLine();
         }
     }
 }

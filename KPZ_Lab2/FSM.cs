@@ -24,31 +24,63 @@ namespace KPZ_Lab2
             FinalStates = finalStates;
         }
 
-        public bool Check(string str)
+        public string GetLexUnits(string str)
         {
+            var result = "";
+            var type = LexicalUnit.LexType.None;
             var currentState = InitialState;
+            str += ' ';
             var array = str.ToCharArray();
-            var counter = 0;
-            var found = false;
+            var temp = "";
 
-            foreach (var currentSymbol in array)
+            for (var i = 0; i < array.Length; i++)
             {
-                counter = 0;
+                var counter = 0;
                 foreach (var transit in Transitions)
                 {
                     counter++;
-                    if (transit.InitialState == currentState && transit.IsEnabled(currentSymbol))
+                    if (transit.InitialState == currentState && transit.IsEnabled(array[i]))
                     {
+                        temp += array[i];
                         currentState = transit.EndState;
-                        found = true;
+                        type = transit.Type;
                         break;
                     }
-                    if (counter == Transitions.Count)
-                        return false;
-                    found = false;
+                    if (counter != Transitions.Count) continue;
+                    if (temp == "for")
+                        type = LexicalUnit.LexType.KeyWord;
+
+                    var l = new LexicalUnit(temp, type);
+                    var s = "";
+
+                    switch (type)
+                    {
+                        case (LexicalUnit.LexType.Identifier):
+                            s = LexicalUnit.IdList.IndexOf(temp).ToString();
+                            break;
+                        case (LexicalUnit.LexType.Const):
+                            s = LexicalUnit.CList.IndexOf(temp).ToString();
+                            break;
+                        case (LexicalUnit.LexType.Bracket):
+                            s = temp;
+                            break;
+                        case (LexicalUnit.LexType.Operation):
+                            s = temp;
+                            break;
+                        case (LexicalUnit.LexType.Separator):
+                            s = temp;
+                            break;
+                        case (LexicalUnit.LexType.KeyWord):
+                            s = LexicalUnit.KeyList.IndexOf(temp).ToString();
+                            break;
+                    }
+                    result += "(" + (int)l.Type + "," + s + ")";
+                    temp = "";
+                    i--;
+                    currentState = InitialState;
                 }
             }
-            return found;
+            return result;
         }
     }
 }

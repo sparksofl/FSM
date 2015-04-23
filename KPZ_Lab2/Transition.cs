@@ -11,19 +11,18 @@ namespace KPZ_Lab2
         public State InitialState { get; set; }
         public State EndState { get; set; }
         public List<char> SymbolsList { get; set; }
+        public LexicalUnit.LexType Type { get; set; }
 
-        public Transition(State iState, State eState, List<char> sList)
+        public Transition(State iState, State eState, List<char> sList, LexicalUnit.LexType type)
         {
             InitialState = iState;
             EndState = eState;
             SymbolsList = sList;
+            Type = type;
         }
 
-        public Transition(State iState, State eState, char c)
+        public Transition(State iState, State eState, char c, LexicalUnit.LexType type) : this(iState, eState, new List<char>() {c}, type)
         {
-            InitialState = iState;
-            EndState = eState;
-            SymbolsList = new List<char>() {c};
         }
 
         public bool IsEnabled(char c)

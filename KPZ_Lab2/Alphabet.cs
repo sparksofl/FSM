@@ -95,7 +95,7 @@ namespace KPZ_Lab2
         public static List<char> GetAllLetters()
         {
             var all = new List<char>(); 
-            GetLowerLetters();
+            all.AddRange(GetLowerLetters());
             all.AddRange(GetUpperLetters());
 
             return all;
