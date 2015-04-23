@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KPZ_Lab2
 {
@@ -38,6 +35,8 @@ namespace KPZ_Lab2
                 var counter = 0;
                 foreach (var transit in Transitions)
                 {
+                    if (!TermAlphabet.Contains(array[i]))
+                        return "ERROR. Entered symbols does not match terminal alphabet.";
                     counter++;
                     if (transit.InitialState == currentState && transit.IsEnabled(array[i]))
                     {
@@ -50,31 +49,34 @@ namespace KPZ_Lab2
                     if (temp == "for")
                         type = LexicalUnit.LexType.KeyWord;
 
-                    var l = new LexicalUnit(temp, type);
-                    var s = "";
-
-                    switch (type)
+                    if (!temp.Contains(' '))
                     {
-                        case (LexicalUnit.LexType.Identifier):
-                            s = LexicalUnit.IdList.IndexOf(temp).ToString();
-                            break;
-                        case (LexicalUnit.LexType.Const):
-                            s = LexicalUnit.CList.IndexOf(temp).ToString();
-                            break;
-                        case (LexicalUnit.LexType.Bracket):
-                            s = temp;
-                            break;
-                        case (LexicalUnit.LexType.Operation):
-                            s = temp;
-                            break;
-                        case (LexicalUnit.LexType.Separator):
-                            s = temp;
-                            break;
-                        case (LexicalUnit.LexType.KeyWord):
-                            s = LexicalUnit.KeyList.IndexOf(temp).ToString();
-                            break;
+                        var l = new LexicalUnit(temp, type);
+                        var s = "";
+
+                        switch (type)
+                        {
+                            case (LexicalUnit.LexType.Identifier):
+                                s = LexicalUnit.IdList.IndexOf(temp).ToString();
+                                break;
+                            case (LexicalUnit.LexType.Const):
+                                s = LexicalUnit.CList.IndexOf(temp).ToString();
+                                break;
+                            case (LexicalUnit.LexType.Bracket):
+                                s = temp;
+                                break;
+                            case (LexicalUnit.LexType.Operation):
+                                s = temp;
+                                break;
+                            case (LexicalUnit.LexType.Separator):
+                                s = temp;
+                                break;
+                            case (LexicalUnit.LexType.KeyWord):
+                                s = LexicalUnit.KeyList.IndexOf(temp).ToString();
+                                break;
+                        }
+                        result += "(" + (int) l.Type + "," + s + ")";
                     }
-                    result += "(" + (int)l.Type + "," + s + ")";
                     temp = "";
                     i--;
                     currentState = InitialState;

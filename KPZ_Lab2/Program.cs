@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;
 
 namespace KPZ_Lab2
 {
@@ -71,11 +66,11 @@ namespace KPZ_Lab2
                 t66
             };
 
-            string expression = "for(i=0;i<10;i=i+1){a[i]=i;}";
-            Console.WriteLine("Unparsed expression: \n" + expression);
+            string expression = "for (i=0;   i<10; i=i+1)  {a[i] = i;}";
+            Console.WriteLine("CAUTION: blank spaces ignored.\nUnparsed expression: \n" + expression);
             var m = new FSM(states, Alphabet.GetFullAlphabet(), transitions, s0, finalStates);
             Console.WriteLine("\nLexical units: ");
-            Console.WriteLine(m.GetLexUnits("for(i=0;i<10;i=i+1){a[i]=i;}"));
+            Console.WriteLine(m.GetLexUnits(expression));
 
             Console.WriteLine("\nIdentifiers (1):");
             foreach (var item in LexicalUnit.IdList)
